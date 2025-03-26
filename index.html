@@ -136,6 +136,10 @@
         }
         input:focus {
             outline: none;
+            box-shadow: 0 0 8px #FF8 0.3s, background 0.3s;
+        }
+        input:focus {
+            outline: none;
             box-shadow: 0 0 8px #FF8A9D;
             background: #FFE4E9;
         }
@@ -337,33 +341,31 @@
     <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
     <script>
         let web3, accounts, factoryContract, currentMemeContract, currentLPContract;
-        const FACTORY_ADDRESS = "0xd72DdbFF2d6d0821991A7cC7D70fCeA3BDA6FE10";
+        const FACTORY_ADDRESS = "0xa9270cfbbc6fabf26aa880c9d28a5fe9bdc4434a";
         const FACTORY_ABI = [
             {"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"string","name":"_symbol","type":"string"},{"internalType":"address","name":"_lpToken","type":"address"},{"internalType":"uint256","name":"_stakeUnitLP","type":"uint256"}],"name":"createMemeCoin","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"address","name":"_creator","type":"address"}],"name":"getDeployedMemeCoins","outputs":[{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"}
+            {"inputs":[{"internalType":"address","name":"_creator","type":"address"}],"name":"getDeployedMemeCoins","outputs":[{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},
+            {"inputs":[],"name":"getAllMemeCoins","outputs":[{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"}
         ];
         const MEME_ABI = [
-            {"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"string","name":"_symbol","type":"string"},{"internalType":"address","name":"_lpToken","type":"address"},{"internalType":"uint256","name":"_stakeUnitLP","type":"uint256"}],"stateMutability":"nonpayable","type":"constructor"},
+            {"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"string","name":"_symbol","type":"string"},{"internalType":"address","name":"_lpToken","type":"address"},{"internalType":"uint256","name":"_stakeUnitLP","type":"uint256"},{"internalType":"address","name":"_owner","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},
+            {"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
             {"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
             {"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"claimRewards","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserStake","outputs":[{"internalType":"uint256","name":"lpAmount","type":"uint256"},{"internalType":"uint256","name":"memeAmount","type":"uint256"},{"internalType":"uint256","name":"userStartBlock","type":"uint256"},{"internalType":"uint256","name":"lpReward","type":"uint256"},{"internalType":"uint256","name":"memeReward","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getPendingRewards","outputs":[{"internalType":"uint256","name":"lpReward","type":"uint256"},{"internalType":"uint256","name":"memeReward","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"stakeLP","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"stakeMeme","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[],"name":"unstakeLP","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[],"name":"unstakeMeme","outputs":[],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"addedValue","type":"uint256"}],"name":"increaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
             {"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"subtractedValue","type":"uint256"}],"name":"decreaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getPendingRewards","outputs":[{"internalType":"uint256","name":"lpReward","type":"uint256"},{"internalType":"uint256","name":"memeReward","type":"uint256"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"getRemainingRewards","outputs":[{"internalType":"uint256","name":"remaining","type":"uint256"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"getTotalStaked","outputs":[{"internalType":"uint256","name":"totalLP","type":"uint256"},{"internalType":"uint256","name":"totalMeme","type":"uint256"}],"stateMutability":"view","type":"function"},
             {"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserHistory","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"}],"stateMutability":"view","type":"function"},
-            {"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"addedValue","type":"uint256"}],"name":"increaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserStake","outputs":[{"internalType":"uint256","name":"lpAmount","type":"uint256"},{"internalType":"uint256","name":"memeAmount","type":"uint256"},{"internalType":"uint256","name":"userStartBlock","type":"uint256"},{"internalType":"uint256","name":"lpReward","type":"uint256"},{"internalType":"uint256","name":"memeReward","type":"uint256"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"lpToken","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"startBlock","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"stakeLP","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"stakeMeme","outputs":[],"stateMutability":"nonpayable","type":"function"},
             {"inputs":[],"name":"STAKE_UNIT_LP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"STAKE_UNIT_MEME","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},
@@ -372,7 +374,9 @@
             {"inputs":[],"name":"totalMinedAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
             {"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
             {"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
-            {"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}
+            {"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[],"name":"unstakeLP","outputs":[],"stateMutability":"nonpayable","type":"function"},
+            {"inputs":[],"name":"unstakeMeme","outputs":[],"stateMutability":"nonpayable","type":"function"}
         ];
         const LP_ABI = [
             {"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},
@@ -588,9 +592,9 @@
                 return;
             }
             const stakeUnitLP = await currentMemeContract.methods.STAKE_UNIT_LP().call();
-            amount = Math.floor(amount / (stakeUnitLP / 1e18)) * (stakeUnitLP / 1e18);
-            if (amount < (stakeUnitLP / 1e18)) {
-                showModal(`LP amount must be at least ${stakeUnitLP / 1e18} and in multiples of ${stakeUnitLP / 1e18}!`);
+            amount = Math.floor(amount / stakeUnitLP) * stakeUnitLP;
+            if (amount < stakeUnitLP) {
+                showModal(`LP amount must be at least ${stakeUnitLP} and in multiples of ${stakeUnitLP}!`);
                 return;
             }
             try {
@@ -664,9 +668,9 @@
                 return;
             }
             const stakeUnitMeme = await currentMemeContract.methods.STAKE_UNIT_MEME().call();
-            amount = Math.floor(amount / stakeUnitMeme) * stakeUnitMeme;
-            if (amount < stakeUnitMeme) {
-                showModal(`Amount must be at least ${stakeUnitMeme} and in multiples of ${stakeUnitMeme}!`);
+            amount = Math.floor(amount / (stakeUnitMeme / 1e18)) * (stakeUnitMeme / 1e18);
+            if (amount < (stakeUnitMeme / 1e18)) {
+                showModal(`Amount must be at least ${stakeUnitMeme / 1e18} and in multiples of ${stakeUnitMeme / 1e18}!`);
                 return;
             }
             try {
@@ -736,15 +740,15 @@
                 const stakeUnitLP = await currentMemeContract.methods.STAKE_UNIT_LP().call();
                 const lpBalance = parseFloat(web3.utils.fromWei(balance, 'ether'));
                 let stakeAmount = lpBalance * percentage / 100;
-                stakeAmount = Math.floor(stakeAmount / (stakeUnitLP / 1e18)) * (stakeUnitLP / 1e18);
-                document.getElementById('stakeLPAmountInput').value = stakeAmount >= (stakeUnitLP / 1e18) ? stakeAmount : 0;
+                stakeAmount = Math.floor(stakeAmount / stakeUnitLP) * stakeUnitLP;
+                document.getElementById('stakeLPAmountInput').value = stakeAmount >= stakeUnitLP ? stakeAmount : 0;
             } else {
                 const balance = await currentMemeContract.methods.balanceOf(accounts[0]).call();
                 const stakeUnitMeme = await currentMemeContract.methods.STAKE_UNIT_MEME().call();
                 const memeBalance = parseFloat(web3.utils.fromWei(balance, 'ether'));
                 let stakeAmount = memeBalance * percentage / 100;
-                stakeAmount = Math.floor(stakeAmount / stakeUnitMeme) * stakeUnitMeme;
-                document.getElementById('stakeMemeAmountInput').value = stakeAmount >= stakeUnitMeme ? stakeAmount : 0;
+                stakeAmount = Math.floor(stakeAmount / (stakeUnitMeme / 1e18)) * (stakeUnitMeme / 1e18);
+                document.getElementById('stakeMemeAmountInput').value = stakeAmount >= (stakeUnitMeme / 1e18) ? stakeAmount : 0;
             }
         }
 
