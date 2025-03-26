@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemeCoin Whitepaper</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #FF6F85;
+            margin-bottom: 15px;
+        }
+        h1 { font-size: 2.5em; text-align: center; }
+        h2 { font-size: 1.8em; }
+        h3 { font-size: 1.4em; }
+        p { margin-bottom: 15px; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        code {
+            background: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        pre {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .section { margin-bottom: 30px; }
+        footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MemeCoin Whitepaper</h1>
+        <p style="text-align: center; font-style: italic;">A Decentralized Staking and Reward System on Shibarium</p>
+
+        <div class="section">
+            <h2>1. Introduction</h2>
+            <p>MemeCoin is a decentralized, community-driven token system built on the Shibarium blockchain. It allows anyone to deploy their own meme-themed cryptocurrency and enables users to stake liquidity pool (LP) tokens or the MemeCoin itself to earn rewards. Designed for simplicity and accessibility, MemeCoin combines fun with financial incentives, leveraging Shibarium's low-cost, high-speed infrastructure.</p>
+            <p>This whitepaper outlines the system's mechanics, deployment process, participation rules, and reward structure, providing a comprehensive guide for creators and stakers alike.</p>
+        </div>
+
+        <div class="section">
+            <h2>2. System Overview</h2>
+            <h3>2.1 Core Components</h3>
+            <ul>
+                <li><strong>MemeCoin Contract:</strong> A smart contract managing token creation, staking, and rewards.</li>
+                <li><strong>MemeCoinFactory Contract:</strong> A factory contract for deploying new MemeCoin instances.</li>
+                <li><strong>Staking DApp:</strong> A user-friendly interface for deploying and interacting with MemeCoins.</li>
+            </ul>
+            <h3>2.2 Key Features</h3>
+            <ul>
+                <li>Customizable token name and symbol.</li>
+                <li>Staking of LP tokens and MemeCoins for rewards.</li>
+                <li>Dynamic reward decay over time.</li>
+                <li>Fee collection for creators.</li>
+                <li>Maximum supply cap and mining end conditions.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>3. Tokenomics</h2>
+            <h3>3.1 Token Specifications</h3>
+            <ul>
+                <li><strong>Decimals:</strong> 18</li>
+                <li><strong>Maximum Supply:</strong> 1,000,000,000,000,000 tokens (1 quadrillion)</li>
+                <li><strong>Stake Units:</strong>
+                    <ul>
+                        <li>LP: Configurable per deployment (e.g., 1,000,000 wei)</li>
+                        <li>MemeCoin: Fixed at 10,000 tokens</li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>3.2 Reward Structure</h3>
+            <p>Rewards are minted for stakers based on their staked amounts and decrease over time:</p>
+            <ul>
+                <li><strong>Initial LP Reward:</strong> 500 tokens per block per stake unit</li>
+                <li><strong>Minimum LP Reward:</strong> 10 tokens per block per stake unit</li>
+                <li><strong>Initial MemeCoin Reward:</strong> 25,000 tokens per block per stake unit</li>
+                <li><strong>Minimum MemeCoin Reward:</strong> 500 tokens per block per stake unit</li>
+                <li><strong>Reward Decay:</strong> Reduces by 2% every 600,000 blocks (approximately 1 month on Shibarium)</li>
+                <li><strong>Maximum Reward Blocks:</strong> 29,400,000 (approximately 5 years)</li>
+                <li><strong>Max Reward per Claim:</strong> 1,000,000 tokens</li>
+            </ul>
+            <p>Mining ends when the total supply reaches the maximum supply, halting further reward minting.</p>
+        </div>
+
+        <div class="section">
+            <h2>4. Deployment Process</h2>
+            <p>Anyone can deploy a MemeCoin using the MemeCoinFactory contract via the staking DApp.</p>
+            <h3>4.1 Requirements</h3>
+            <ul>
+                <li>A wallet connected to Shibarium (e.g., MetaMask).</li>
+                <li>BONE tokens for gas fees.</li>
+                <li>An LP token address from a Shibarium liquidity pool.</li>
+            </ul>
+            <h3>4.2 Steps</h3>
+            <ol>
+                <li>Connect your wallet to the DApp on Shibarium (Chain ID: 109).</li>
+                <li>Navigate to the "Deploy MemeCoin" section.</li>
+                <li>Enter:
+                    <ul>
+                        <li><strong>Name:</strong> e.g., "DogCoin"</li>
+                        <li><strong>Symbol:</strong> e.g., "DOG"</li>
+                        <li><strong>LP Token Address:</strong> Address of the LP token contract</li>
+                        <li><strong>Stake Unit LP:</strong> Minimum LP staking unit (in wei, e.g., 1,000,000)</li>
+                    </ul>
+                </li>
+                <li>Click "Deploy MemeCoin" and confirm the transaction.</li>
+                <li>Once deployed, the contract address appears in your "Deployed MemeCoins" list.</li>
+            </ol>
+            <p>The deployer becomes the owner, entitled to collect fees from the LP pair.</p>
+        </div>
+
+        <div class="section">
+            <h2>5. Participation Rules</h2>
+            <p>After deployment, users can interact with the MemeCoin through the DApp.</p>
+            <h3>5.1 Staking LP Tokens</h3>
+            <ul>
+                <li><strong>Requirement:</strong> Own LP tokens from the specified pair.</li>
+                <li><strong>Amount:</strong> Must be a multiple of the Stake Unit LP.</li>
+                <li><strong>Steps:</strong>
+                    <ol>
+                        <li>Search for the MemeCoin address in the DApp.</li>
+                        <li>Enter the LP amount to stake.</li>
+                        <li>Approve the contract to spend LP tokens.</li>
+                        <li>Confirm the staking transaction.</li>
+                    </ol>
+                </li>
+            </ul>
+            <h3>5.2 Staking MemeCoins</h3>
+            <ul>
+                <li><strong>Requirement:</strong> Own the deployed MemeCoin tokens.</li>
+                <li><strong>Amount:</strong> Must be a multiple of 10,000 tokens.</li>
+                <li><strong>Steps:</strong>
+                    <ol>
+                        <li>Search for the MemeCoin address.</li>
+                        <li>Enter the MemeCoin amount to stake.</li>
+                        <li>Confirm the staking transaction.</li>
+                    </ol>
+                </li>
+            </ul>
+            <h3>5.3 Claiming Rewards</h3>
+            <p>Stakers can claim rewards at any time:</p>
+            <ul>
+                <li>Click "Claim Rewards" in the LP or MemeCoin section.</li>
+                <li>Rewards are minted and added to your balance.</li>
+            </ul>
+            <h3>5.4 Unstaking</h3>
+            <ul>
+                <li><strong>LP:</strong> Click "Unstake All" to withdraw all LP tokens and claim rewards.</li>
+                <li><strong>MemeCoin:</strong> Click "Unstake All" to withdraw all staked MemeCoins and claim rewards.</li>
+            </ul>
+            <h3>5.5 Fee Collection (Owner Only)</h3>
+            <p>The owner collects fees from the LP pair when users stake or unstake LP tokens, transferred to their wallet in the pair's underlying tokens.</p>
+        </div>
+
+        <div class="section">
+            <h2>6. Security Features</h2>
+            <ul>
+                <li><strong>Non-Reentrant Modifier:</strong> Prevents reentrancy attacks.</li>
+                <li><strong>SafeERC20 Library:</strong> Ensures safe token transfers.</li>
+                <li><strong>Ownership:</strong> Only the deployer can claim fees.</li>
+                <li><strong>Supply Cap:</strong> Mining stops at 1 quadrillion tokens.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>7. Technical Details</h2>
+            <p>MemeCoin is written in Solidity 0.8.13 and deployed on Shibarium.</p>
+            <h3>7.1 Key Constants</h3>
+            <pre>
+MAX_SUPPLY = 1,000,000,000,000,000 * 10^18
+STAKE_UNIT_MEME = 10,000 * 10^18
+INITIAL_LP_REWARD = 500 * 10^18
+MIN_LP_REWARD = 10 * 10^18
+INITIAL_MEME_REWARD = 25 * 10^15
+MIN_MEME_REWARD = 5 * 10^13
+REWARD_DECAY_PERIOD = 600,000 blocks
+MAX_REWARD_BLOCKS = 29,400,000 blocks
+MAX_REWARD_PER_CLAIM = 1,000,000 * 10^18
+            </pre>
+            <h3>7.2 Contracts</h3>
+            <p><strong>MemeCoinFactory:</strong> Deploys new MemeCoin instances.</p>
+            <p><strong>MemeCoin:</strong> Manages staking, rewards, and token operations.</p>
+        </div>
+
+        <div class="section">
+            <h2>8. Conclusion</h2>
+            <p>MemeCoin offers a playful yet robust platform for creating and staking meme-themed tokens on Shibarium. With its transparent reward system and user-friendly DApp, it invites global participation in the meme economy. Join us in building the future of decentralized fun!</p>
+        </div>
+
+        <footer>
+            <p>© 2025 MemeCoin Team | Powered by Shibarium</p>
+        </footer>
+    </div>
+</body>
+</html>
