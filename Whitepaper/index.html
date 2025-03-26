@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MemeCoin Whitepaper</title>
+    <title>MemeCoin - Your Fun Staking Adventure</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,198 +14,146 @@
             color: #333;
         }
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
             background: #fff;
-            padding: 30px;
+            padding: 25px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        h1, h2, h3 {
+        h1, h2 {
             color: #FF6F85;
             margin-bottom: 15px;
         }
-        h1 { font-size: 2.5em; text-align: center; }
-        h2 { font-size: 1.8em; }
-        h3 { font-size: 1.4em; }
-        p { margin-bottom: 15px; }
-        ul { margin-left: 20px; margin-bottom: 15px; }
-        code {
-            background: #f0f0f0;
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-family: 'Courier New', Courier, monospace;
-        }
-        pre {
-            background: #f0f0f0;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
-        .section { margin-bottom: 30px; }
+        h1 { font-size: 2.2em; text-align: center; }
+        h2 { font-size: 1.6em; }
+        p { margin-bottom: 15px; font-size: 1.1em; }
+        ul { margin-left: 20px; margin-bottom: 15px; font-size: 1.1em; }
+        .section { margin-bottom: 25px; }
         footer {
             text-align: center;
             font-size: 0.9em;
             color: #666;
             margin-top: 20px;
         }
+        .highlight { color: #FF8A9D; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>MemeCoin Whitepaper</h1>
-        <p style="text-align: center; font-style: italic;">A Decentralized Staking and Reward System on Shibarium with WoofSwap Integration</p>
+        <h1>Welcome to MemeCoin!</h1>
+        <p style="text-align: center;">A fun way to create and stake meme tokens on Shibarium with WoofSwap</p>
 
         <div class="section">
-            <h2>1. Introduction</h2>
-            <p>MemeCoin is a decentralized token system built on the Shibarium blockchain, designed to empower communities to create meme-themed cryptocurrencies. Integrated exclusively with WoofSwap liquidity pools, MemeCoin enables users to stake WoofSwap LP tokens or the MemeCoin itself to earn rewards. Leveraging Shibarium's efficiency and WoofSwap's liquidity, it offers a fun and rewarding experience for global participants.</p>
-            <p>This whitepaper details the system's mechanics, deployment process, participation rules, and reward structure.</p>
+            <h2>What is MemeCoin?</h2>
+            <p>MemeCoin lets you create your own meme-themed token and earn rewards by staking. It runs on Shibarium, a fast and cheap blockchain, and works only with WoofSwap liquidity pools. Whether you’re a creator or a staker, it’s all about having fun and growing your tokens!</p>
         </div>
 
         <div class="section">
-            <h2>2. System Overview</h2>
-            <h3>2.1 Core Components</h3>
+            <h2>How It Works</h2>
             <ul>
-                <li><strong>MemeCoin Contract:</strong> Manages token creation, staking, and rewards.</li>
-                <li><strong>MemeCoinFactory Contract:</strong> Deploys new MemeCoin instances.</li>
-                <li><strong>Staking DApp:</strong> A user interface for deployment and interaction.</li>
-            </ul>
-            <h3>2.2 Key Features</h3>
-            <ul>
-                <li>Customizable token name and symbol.</li>
-                <li>Staking of WoofSwap LP tokens and MemeCoins.</li>
-                <li>Dynamic reward decay.</li>
-                <li>Fee collection for creators via WoofSwap pairs.</li>
-                <li>Supply cap with mining termination.</li>
+                <li><span class="highlight">Create Your Token:</span> Make a meme token with a name and symbol you love.</li>
+                <li><span class="highlight">Stake to Earn:</span> Stake WoofSwap LP tokens or your MemeCoin to get rewards.</li>
+                <li><span class="highlight">Collect Fees:</span> If you create a token, you earn fees from stakers.</li>
+                <li><span class="highlight">Rewards Over Time:</span> Rewards start high and decrease slowly until they stop.</li>
             </ul>
         </div>
 
         <div class="section">
-            <h2>3. Tokenomics</h2>
-            <h3>3.1 Token Specifications</h3>
+            <h2>Token Details</h2>
             <ul>
-                <li><strong>Decimals:</strong> 18</li>
-                <li><strong>Maximum Supply:</strong> 1,000,000,000,000,000 tokens (1 quadrillion)</li>
-                <li><strong>Stake Units:</strong>
+                <li><span class="highlight">Total Tokens:</span> Up to 1,000,000,000,000,000 (1 quadrillion).</li>
+                <li><span class="highlight">Staking Units:</span>
                     <ul>
-                        <li>WoofSwap LP: Configurable per deployment (e.g., 1,000,000 wei)</li>
-                        <li>MemeCoin: Fixed at 10,000 tokens</li>
+                        <li>WoofSwap LP: Set when you create the token (e.g., 1,000,000 tiny units).</li>
+                        <li>MemeCoin: 10,000 tokens per stake.</li>
                     </ul>
                 </li>
+                <li><span class="highlight">Rewards Stop:</span> When all 1 quadrillion tokens are made.</li>
             </ul>
-            <h3>3.2 Reward Structure</h3>
-            <p>Rewards decrease over time based on staking activity:</p>
-            <ul>
-                <li><strong>Initial LP Reward:</strong> 500 tokens/block/unit</li>
-                <li><strong>Minimum LP Reward:</strong> 10 tokens/block/unit</li>
-                <li><strong>Initial MemeCoin Reward:</strong> 25,000 tokens/block/unit</li>
-                <li><strong>Minimum MemeCoin Reward:</strong> 500 tokens/block/unit</li>
-                <li><strong>Reward Decay:</strong> 2% reduction every 600,000 blocks (~1 month)</li>
-                <li><strong>Maximum Reward Blocks:</strong> 29,400,000 (~5 years)</li>
-                <li><strong>Max Reward per Claim:</strong> 1,000,000 tokens</li>
-            </ul>
-            <p>Mining ends when the total supply hits the cap.</p>
         </div>
 
         <div class="section">
-            <h2>4. Deployment Process</h2>
-            <p>Deploy a MemeCoin using the MemeCoinFactory via the DApp, requiring a WoofSwap LP token.</p>
-            <h3>4.1 Requirements</h3>
+            <h2>Reward Rules</h2>
             <ul>
-                <li>Wallet connected to Shibarium (e.g., MetaMask).</li>
-                <li>BONE tokens for gas fees.</li>
-                <li>WoofSwap LP token address (from WoofSwap on Shibarium).</li>
-            </ul>
-            <h3>4.2 Steps</h3>
-            <ol>
-                <li>Connect wallet to the DApp on Shibarium (Chain ID: 109).</li>
-                <li>Go to "Deploy MemeCoin."</li>
-                <li>Input:
+                <li><span class="highlight">WoofSwap LP Rewards:</span>
                     <ul>
-                        <li><strong>Name:</strong> e.g., "DogCoin"</li>
-                        <li><strong>Symbol:</strong> e.g., "DOG"</li>
-                        <li><strong>LP Token Address:</strong> WoofSwap LP token address</li>
-                        <li><strong>Stake Unit LP:</strong> Minimum LP staking unit (e.g., 1,000,000 wei)</li>
+                        <li>Start at 500 tokens per block per stake unit.</li>
+                        <li>Drop to 10 tokens minimum over time.</li>
                     </ul>
                 </li>
-                <li>Click "Deploy MemeCoin" and confirm.</li>
-                <li>View the contract address in "Deployed MemeCoins."</li>
-            </ol>
-            <p>The deployer (owner) collects fees from the WoofSwap LP pair.</p>
-        </div>
-
-        <div class="section">
-            <h2>5. Participation Rules</h2>
-            <p>Interact with deployed MemeCoins via the DApp.</p>
-            <h3>5.1 Staking WoofSwap LP Tokens</h3>
-            <ul>
-                <li><strong>Requirement:</strong> WoofSwap LP tokens.</li>
-                <li><strong>Amount:</strong> Multiple of the Stake Unit LP.</li>
-                <li><strong>Steps:</strong>
-                    <ol>
-                        <li>Search MemeCoin address in DApp.</li>
-                        <li>Enter LP amount.</li>
-                        <li>Approve contract to spend LP tokens.</li>
-                        <li>Confirm staking.</li>
-                    </ol>
+                <li><span class="highlight">MemeCoin Rewards:</span>
+                    <ul>
+                        <li>Start at 0.025 tokens per block per stake unit.</li>
+                        <li>Drop to 0.0005 tokens minimum over time.</li>
+                    </ul>
                 </li>
+                <li><span class="highlight">Reward Decrease:</span> Drops 2% every month (600,000 blocks).</li>
+                <li><span class="highlight">Max Time:</span> Rewards run for about 5 years (29,400,000 blocks).</li>
+                <li><span class="highlight">Max Claim:</span> 1,000,000 tokens per claim.</li>
             </ul>
-            <h3>5.2 Staking MemeCoins</h3>
+        </div>
+
+        <div class="section">
+            <h2>How to Create Your MemeCoin</h2>
+            <p>Use our easy app on Shibarium:</p>
             <ul>
-                <li><strong>Requirement:</strong> Own the MemeCoin.</li>
-                <li><strong>Amount:</strong> Multiple of 10,000 tokens.</li>
-                <li><strong>Steps:</strong>
-                    <ol>
-                        <li>Search MemeCoin address.</li>
-                        <li>Enter MemeCoin amount.</li>
-                        <li>Confirm staking.</li>
-                    </ol>
+                <li>Connect your wallet (like MetaMask) with some BONE for fees.</li>
+                <li>Go to “Deploy MemeCoin.”</li>
+                <li>Fill in:
+                    <ul>
+                        <li><span class="highlight">Name:</span> e.g., “CatCoin”</li>
+                        <li><span class="highlight">Symbol:</span> e.g., “CAT”</li>
+                        <li><span class="highlight">WoofSwap LP Address:</span> Get this from WoofSwap.</li>
+                        <li><span class="highlight">Stake Unit LP:</span> Minimum LP to stake (e.g., 1,000,000).</li>
+                    </ul>
                 </li>
+                <li>Click “Deploy” and confirm in your wallet.</li>
+                <li>Find your token address in the app afterward.</li>
             </ul>
-            <h3>5.3 Claiming Rewards</h3>
-            <p>Click "Claim Rewards" to mint rewards to your balance.</p>
-            <h3>5.4 Unstaking</h3>
+            <p>You’ll own the token and collect fees from stakers!</p>
+        </div>
+
+        <div class="section">
+            <h2>How to Stake and Earn</h2>
+            <p>Join the fun with any MemeCoin:</p>
             <ul>
-                <li><strong>LP:</strong> "Unstake All" withdraws LP tokens and claims rewards.</li>
-                <li><strong>MemeCoin:</strong> "Unstake All" withdraws MemeCoins and claims rewards.</li>
+                <li><span class="highlight">Stake WoofSwap LP:</span>
+                    <ul>
+                        <li>Search the MemeCoin address in the app.</li>
+                        <li>Enter your WoofSwap LP amount (must match the stake unit).</li>
+                        <li>Approve and stake it.</li>
+                    </ul>
+                </li>
+                <li><span class="highlight">Stake MemeCoin:</span>
+                    <ul>
+                        <li>Search the MemeCoin address.</li>
+                        <li>Enter your amount (multiples of 10,000 tokens).</li>
+                        <li>Stake it.</li>
+                    </ul>
+                </li>
+                <li><span class="highlight">Claim Rewards:</span> Click “Claim Rewards” anytime.</li>
+                <li><span class="highlight">Unstake:</span> Click “Unstake All” to get your tokens back plus rewards.</li>
             </ul>
-            <h3>5.5 Fee Collection (Owner Only)</h3>
-            <p>Fees from WoofSwap LP pairs are collected by the owner during staking/unstaking.</p>
         </div>
 
         <div class="section">
-            <h2>6. Security Features</h2>
+            <h2>Fees for Creators</h2>
+            <p>If you made the MemeCoin, you get fees from the WoofSwap LP pool every time someone stakes or unstakes LP tokens. These go straight to your wallet!</p>
+        </div>
+
+        <div class="section">
+            <h2>Safety Features</h2>
             <ul>
-                <li><strong>Non-Reentrant:</strong> Prevents reentrancy attacks.</li>
-                <li><strong>SafeERC20:</strong> Ensures safe transfers.</li>
-                <li><strong>Ownership:</strong> Fees restricted to deployer.</li>
-                <li><strong>Supply Cap:</strong> Mining stops at 1 quadrillion.</li>
+                <li>No sneaky tricks allowed (safe staking).</li>
+                <li>Only you can collect fees if you’re the creator.</li>
+                <li>Tokens stop at 1 quadrillion—no surprises.</li>
             </ul>
         </div>
 
         <div class="section">
-            <h2>7. Technical Details</h2>
-            <p>Built in Solidity 0.8.13 for Shibarium with WoofSwap integration.</p>
-            <h3>7.1 Key Constants</h3>
-            <pre>
-MAX_SUPPLY = 1,000,000,000,000,000 * 10^18
-STAKE_UNIT_MEME = 10,000 * 10^18
-INITIAL_LP_REWARD = 500 * 10^18
-MIN_LP_REWARD = 10 * 10^18
-INITIAL_MEME_REWARD = 25 * 10^15
-MIN_MEME_REWARD = 5 * 10^13
-REWARD_DECAY_PERIOD = 600,000 blocks
-MAX_REWARD_BLOCKS = 29,400,000 blocks
-MAX_REWARD_PER_CLAIM = 1,000,000 * 10^18
-            </pre>
-            <h3>7.2 Contracts</h3>
-            <p><strong>MemeCoinFactory:</strong> Deploys MemeCoins.</p>
-            <p><strong>MemeCoin:</strong> Handles staking and rewards with WoofSwap LP tokens.</p>
-        </div>
-
-        <div class="section">
-            <h2>8. Conclusion</h2>
-            <p>MemeCoin merges meme culture with decentralized finance on Shibarium, exclusively using WoofSwap LP tokens. Join the meme economy today!</p>
+            <h2>Get Started!</h2>
+            <p>Create your own MemeCoin or stake with friends. It’s all about fun and rewards on Shibarium with WoofSwap. Let’s make memes and money together!</p>
         </div>
 
         <footer>
