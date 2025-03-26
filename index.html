@@ -337,7 +337,7 @@
     <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
     <script>
         let web3, accounts, factoryContract, currentMemeContract, currentLPContract;
-        const FACTORY_ADDRESS = "0xa9270cfbbc6fabf26aa880c9d28a5fe9bdc4434a";
+        const FACTORY_ADDRESS = "0x5aD0f44A61b747Db51df830599147073747090e3";
         const FACTORY_ABI = [
             {"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"string","name":"_symbol","type":"string"},{"internalType":"address","name":"_lpToken","type":"address"},{"internalType":"uint256","name":"_stakeUnitLP","type":"uint256"}],"name":"createMemeCoin","outputs":[],"stateMutability":"nonpayable","type":"function"},
             {"inputs":[{"internalType":"address","name":"_creator","type":"address"}],"name":"getDeployedMemeCoins","outputs":[{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},
@@ -531,7 +531,7 @@
             try {
                 deployButton.classList.add('loading');
                 showModal('Deploying MemeCoin...');
-                await factoryContract.methods.createMemeCoin(name, symbol, lpToken, stakeUnitLP).send({ from: accounts[0] });
+                await factoryContract.methods.createMemeCoin(name, symbol, lpToken, web3.utils.toWei(stakeUnitLP, 'ether')).send({ from: accounts[0] });
                 showModal('MemeCoin deployed successfully!');
                 document.getElementById('memeName').value = '';
                 document.getElementById('memeSymbol').value = '';
@@ -558,8 +558,6 @@
                 const name = await currentMemeContract.methods.name().call();
                 const symbol = await currentMemeContract.methods.symbol().call();
                 const lpTokenAddr = await currentMemeContract.methods.lpToken().call();
-                const stakeUnitLP = await currentMemeContract.methods.STAKE_UNIT_LP().call();
-                const stakeUnitMeme = await currentMemeContract.methods.STAKE_UNIT_MEME().call();
                 currentLPContract = new web3.eth.Contract(LP_ABI, lpTokenAddr);
                 currentMemeSymbol = symbol;
                 document.getElementById('lpSectionTitle').innerText = `Stake LP (${name})`;
@@ -588,9 +586,10 @@
                 return;
             }
             const stakeUnitLP = await currentMemeContract.methods.STAKE_UNIT_LP().call();
-            amount = Math.floor(amount / stakeUnitLP) * stakeUnitLP;
-            if (amount < stakeUnitLP) {
-                showModal(`LP amount must be at least ${stakeUnitLP} and in multiples of ${stakeUnitLP}!`);
+            const stakeUnitLPEther = parseFloat(web3.utils.fromWei(stakeUnitLP, 'ether'));
+            amount = Math.floor(amount / stakeUnitLPEther) * stakeUnitLPEther;
+            if (amount < stakeUnitLPEther) {
+                showModal(`LP amount must be at least ${stakeUnitLPEther} and in multiples of ${stakeUnitLPEther}!`);
                 return;
             }
             try {
@@ -664,9 +663,10 @@
                 return;
             }
             const stakeUnitMeme = await currentMemeContract.methods.STAKE_UNIT_MEME().call();
-            amount = Math.floor(amount / (stakeUnitMeme / 1e18)) * (stakeUnitMeme / 1e18);
-            if (amount < (stakeUnitMeme / 1e18)) {
-                showModal(`Amount must be at least ${stakeUnitMeme / 1e18} and in multiples of ${stakeUnitMeme / 1e18}!`);
+            const stakeUnitMemeEther = parseFloat(web3.utils.fromWei(stakeUnitMeme, 'ether'));
+            amount = Math.floor(amount / stakeUnitMemeEther) * stakeUnitMemeEther;
+            if (amount < stakeUnitMemeEther) {
+                showModal(`Amount must be at least ${stakeUnitMemeEther} and in multiples of ${stakeUnitMemeEther}!`);
                 return;
             }
             try {
@@ -735,16 +735,18 @@
                 const balance = await currentLPContract.methods.balanceOf(accounts[0]).call();
                 const stakeUnitLP = await currentMemeContract.methods.STAKE_UNIT_LP().call();
                 const lpBalance = parseFloat(web3.utils.fromWei(balance, 'ether'));
+                const stakeUnitLPEther = parseFloat(web3.utils.fromWei(stakeUnitLP, 'ether'));
                 let stakeAmount = lpBalance * percentage / 100;
-                stakeAmount = Math.floor(stakeAmount / stakeUnitLP) * stakeUnitLP;
-                document.getElementById('stakeLPAmountInput').value = stakeAmount >= stakeUnitLP ? stakeAmount : 0;
+                stakeAmount = Math.floor(stakeAmount / stakeUnitLPEther) * stakeUnitLPEther;
+                document.getElementById('stakeLPAmountInput').value = stakeAmount >= stakeUnitLPEther ? stakeAmount : 0;
             } else {
                 const balance = await currentMemeContract.methods.balanceOf(accounts[0]).call();
                 const stakeUnitMeme = await currentMemeContract.methods.STAKE_UNIT_MEME().call();
                 const memeBalance = parseFloat(web3.utils.fromWei(balance, 'ether'));
+                const stakeUnitMemeEther = parseFloat(web3.utils.fromWei(stakeUnitMeme, 'ether'));
                 let stakeAmount = memeBalance * percentage / 100;
-                stakeAmount = Math.floor(stakeAmount / (stakeUnitMeme / 1e18)) * (stakeUnitMeme / 1e18);
-                document.getElementById('stakeMemeAmountInput').value = stakeAmount >= (stakeUnitMeme / 1e18) ? stakeAmount : 0;
+                stakeAmount = Math.floor(stakeAmount / stakeUnitMemeEther) * stakeUnitMemeEther;
+                document.getElementById('stakeMemeAmountInput').value = stakeAmount >= stakeUnitMemeEther ? stakeAmount : 0;
             }
         }
 
